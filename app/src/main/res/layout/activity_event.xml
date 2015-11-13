@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/aeventMain"
+    android:layout_margin="5dp"
+    android:background="#FAFAFA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/aeventName"
+            android:text="HoverMania"
+            android:textColor="#3d3838"
+            android:textStyle="bold"
+            android:textSize="30sp"/>
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/eventimage"
+            android:layout_width="fill_parent"
+            android:src="@drawable/eventimage"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" />
+
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@drawable/eventimage"/>-->
+
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_marginBottom="14dp"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/going"
+                android:text="I am Going"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/people_going"
+                android:layout_marginLeft="20dp"
+                android:text="45 Going"
+                android:textColor="#3d3838"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/ic_action_calender"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="#3d3838"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:id="@+id/aeventDate"
+                    android:text="12/3/2015"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/ic_action_time_black"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="#3d3838"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:id="@+id/aeventTime"
+                    android:text="12:30 am"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@mipmap/ic_action_place_red"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#3d3838"
+                android:textSize="17sp"
+                android:id="@+id/aeventVenue"
+                android:layout_marginBottom="15dp"
+                android:text="Beside uma bank"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/aeventDesc"
+            android:textColor="#757575"
+            android:text="Its a event about integration of all the terrains of the on earth.You have to basically nail every bit of the competetion and make it look awesome!"
+            android:textSize="17sp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1" />
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/ic_action_call"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/aeventContact1"
+                android:layout_weight="2"
+                android:text="Sreerag "
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/aeventContactno1"
+                android:layout_weight="1"
+                android:textColor="#757575"
+                android:text="7794879899"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@mipmap/ic_action_call"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/aeventContact2"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="2"
+                android:text="Sai Teja"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/aeventContactno2"
+                android:layout_weight="1"
+                android:textColor="#757575"
+                android:text="9848322338"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -98,14 +98,11 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
         public Fragment getItem(int index) {
             switch (index) {
                 case 0:
-                    // Top Rated fragment activity
-                    return new TodayFragment();
-                case 1:
-                    // Games fragment activity
-                    return new UpComingFragment();
-                case 2:
-                    // Movies fragment activity
                     return new ProfileFragment();
+                case 1:
+                    return new TodayFragment();
+                case 2:
+                    return new UpComingFragment();
             }
 
             return null;
