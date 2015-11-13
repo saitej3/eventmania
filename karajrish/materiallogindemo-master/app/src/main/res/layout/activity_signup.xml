@@ -76,5 +76,33 @@
             android:gravity="center"
             android:textSize="16dip"/>
 
+
+        <TextView android:id="@+id/or"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="OR"
+            android:gravity="center"
+            android:textSize="16dip"/>
+
+        <TextView android:id="@+id/googtext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Sign in with Google"
+            android:gravity="center"
+            android:textSize="16dip"/>
+
+        <com.google.android.gms.common.SignInButton
+            android:layout_gravity="center"
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+
+
+
+
     </LinearLayout>
 </ScrollView>
