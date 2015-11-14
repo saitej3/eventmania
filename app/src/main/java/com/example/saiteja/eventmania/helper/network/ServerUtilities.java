@@ -23,9 +23,10 @@ public final class ServerUtilities {
 
 
     public static void register(final Context context, String name, String email, final String regId) {
-        String serverUrl = "http://androidconnect.16mb.com/gcm_server_php/gcm_server_php/register.php";
+        String serverUrl = "http://eventmnitw.herokuapp.com/register/";
         Map<String, String> params = new HashMap<String, String>();
-        params.put("regId", regId);
+        params.put("mobile_id", regId);
+        params.put("method","google");
         params.put("name", name);
         params.put("email", email);
         

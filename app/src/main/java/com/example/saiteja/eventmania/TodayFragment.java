@@ -1,14 +1,14 @@
 package com.example.saiteja.eventmania;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,7 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,7 @@ public class TodayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         View rootView = inflater.inflate(R.layout.today_fragment, container, false);
         listView= (ListView) rootView.findViewById(R.id.list);
         eventList = new ArrayList<Event>();
@@ -55,20 +58,28 @@ public class TodayFragment extends Fragment {
         pDialog.setCancelable(false);
         adapter = new CustomEventListAdapter(getActivity(), eventList);
         listView.setAdapter(adapter);
-//        Event e=new Event();
-//        e.setEventName("Hover Mania");
-//        e.setEventTime("12:30 am");
-//        e.setEventVenue("innovation gaarage");
-//        eventList.add(e);
-//        e=new Event();
-//        e.setEventName("Rangoli");
-//        e.setEventTime("2:00 am");
-//        e.setEventVenue("beside garage");
-//        eventList.add(e);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDateandTime = sdf.format(new Date());
+        Log.d("dasdasdasd",currentDateandTime);
+        getData(currentDateandTime);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
 
-        //adapter.notifyDataSetChanged();
+                Intent intent = new Intent(getActivity(), AboutEventActivity.class);
+                Event e = (Event) parent.getItemAtPosition(position);
+                Log.d("tag", e.getEventName());
+                intent.putExtra("id", e.getId());
+                startActivity(intent);
+            }
 
-        getData("2015-11-13");
+            @SuppressWarnings("unused")
+            public void onClick(View v) {
+            }
+
+
+        });
 
         return rootView;
     }
@@ -105,7 +116,10 @@ public class TodayFragment extends Fragment {
                         e.setId(Integer.valueOf(jsonObject.getString("id")));
                         e.setEventName(jsonObject.getString("name"));
                         e.setEventVenue(jsonObject.getString("venue"));
-                        e.setEventTime(jsonObject.getString("date"));
+                        String date=jsonObject.getString("date");
+                        String[] arr=date.split("T");
+                        date=arr[0]+"   "+arr[1].substring(0,5);
+                        e.setEventTime(date);
 
                         eventList.add(e);
                     }
@@ -123,7 +137,7 @@ public class TodayFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error", "Registration Error: " + error.getMessage());
                 Toast.makeText(getActivity(),
-                        "There was an Error please try again", Toast.LENGTH_LONG).show();
+                        "No Events for today", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {

@@ -1,17 +1,20 @@
-package com.sourcey.materiallogindemo;
+package com.example.saiteja.eventmania;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.example.saiteja.eventmania.helper.network.ConnectionDetector;
+import com.example.saiteja.eventmania.helper.network.ServerUtilities;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -21,52 +24,44 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import java.io.IOException;
+
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
     private static final String TAG = "LoginActivity";
-    private static final int REQUEST_SIGNUP = 0;
-
-    @InjectView(R.id.input_email) EditText _emailText;
-    @InjectView(R.id.input_password) EditText _passwordText;
-    @InjectView(R.id.btn_login) Button _loginButton;
-    @InjectView(R.id.link_signup) TextView _signupLink;
-
     //google login
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
+    String name;
+    String email;
+
+    //notifications
+    ConnectionDetector cd;
+    public static final String PROPERTY_REG_ID = "156719298888";
+    String SENDER_ID = "156719298888";
+    static final String TAGGCM = "GCMDemo";
+    GoogleCloudMessaging gcm;
+    Context context;
+    String regid;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
-        
-        _loginButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
-
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
-            }
-        });
+        cd = new ConnectionDetector(getApplicationContext());
+        if (!cd.isConnectingToInternet()) {
+            Toast.makeText(this,
+                    "Internet Connection Error",
+                    Toast.LENGTH_SHORT);
+            return;
+        }
 
         //google sign in
         findViewById(R.id.sign_in_button_login).setOnClickListener(this);
@@ -84,6 +79,9 @@ public class LoginActivity extends AppCompatActivity implements
         signInButton.setScopes(gso.getScopeArray());
 
     }
+
+
+
 
     public void onStart() {
         super.onStart();
@@ -107,50 +105,9 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
 
-
-    public void login() {
-        Log.d(TAG, "Login");
-
-        if (!validate()) {
-            onLoginFailed();
-            return;
-        }
-
-        _loginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
-
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
 
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
-        }
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
@@ -162,6 +119,8 @@ public class LoginActivity extends AppCompatActivity implements
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
+            name=acct.getDisplayName();
+            email=acct.getEmail();
             updateUI(true);
         } else {
             updateUI(false);
@@ -176,43 +135,9 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        // Disable going back to the MainActivity
         moveTaskToBack(true);
     }
 
-    public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
-        finish();
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
-        _loginButton.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
-            valid = false;
-        } else {
-            _emailText.setError(null);
-        }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
-        }
-
-        return valid;
-    }
 
     private void showProgressDialog() {
         if (mProgressDialog == null) {
@@ -232,11 +157,80 @@ public class LoginActivity extends AppCompatActivity implements
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
+            SharedPreferences.Editor editor;
+            SharedPreferences sharedPref = null;
+            sharedPref = getSharedPreferences("user",Context.MODE_PRIVATE);
+            editor = sharedPref.edit();
+            Log.d("name",name);
+            Log.d("email",email);
+            editor.putString("name", name);
+            editor.putString("email", email);
+            editor.commit();
+            gcmId();
+
+            final SharedPreferences prefs = getGCMPreferences(context);
+            String registrationId = prefs.getString(PROPERTY_REG_ID, "");
             startActivity(new Intent(this,MainActivity.class));
-        } else {
+        }
+
+        else {
 
         }
     }
+
+
+    public void gcmId()
+    {
+        if (true) {
+
+            gcm = GoogleCloudMessaging.getInstance(this);
+            regid = getRegistrationId(context);
+
+            if (regid.isEmpty()) {
+                registerInBackground();
+            }
+        } else {
+            Log.i(TAGGCM, "No valid Google Play Services APK found.");
+        }
+    }
+
+    private String getRegistrationId(Context context) {
+        final SharedPreferences prefs = getGCMPreferences(context);
+        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
+        if (registrationId.isEmpty()) {
+            Log.i(TAGGCM, "Registration not found.");
+            return "";
+        }
+
+        return registrationId;
+    }
+
+    private SharedPreferences getGCMPreferences(Context context) {
+
+        return getSharedPreferences(MainActivity.class.getSimpleName(),
+                Context.MODE_PRIVATE);
+    }
+
+    private void registerInBackground() {
+        new Reg().execute(null, null, null);
+    }
+
+
+
+    private void sendRegistrationIdToBackend() {
+
+        ServerUtilities.register(this, name, email, regid);
+    }
+
+
+    private void storeRegistrationId(Context context, String regId) {
+        final SharedPreferences prefs = getGCMPreferences(context);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(PROPERTY_REG_ID, regId);
+        editor.commit();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -254,9 +248,29 @@ public class LoginActivity extends AppCompatActivity implements
 
     }
 
-    GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build();
+    private class Reg extends AsyncTask<Void,Void,String>
+    {
+
+        protected String doInBackground(Void... params) {
+            String msg = "";
+            try {
+                if (gcm == null) {
+                    gcm = GoogleCloudMessaging.getInstance(context);
+                }
+                regid = gcm.register(SENDER_ID);
+                msg = "Device registered, registration ID=" + regid;
+
+                sendRegistrationIdToBackend();
+                storeRegistrationId(context, regid);
+            } catch (IOException ex) {
+                msg = "Error :" + ex.getMessage();
+            }
+            return msg;
+        }
+
+        protected void onPostExecute(String msg) {
+        }
+    }
 
 
 }

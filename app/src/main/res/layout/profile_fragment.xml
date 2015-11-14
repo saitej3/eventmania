@@ -4,10 +4,11 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/listProfile"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Profile"
-        android:textSize="30sp"
-        android:layout_gravity="center_horizontal" />
+        android:dividerHeight="4dp"
+        android:divider="#e2e2e2"
+        android:listSelector="@drawable/list_row_selector" />
 </LinearLayout>
