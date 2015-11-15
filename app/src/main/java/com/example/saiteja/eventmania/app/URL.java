@@ -9,6 +9,7 @@ public class URL {
     public static final String todayevents=baseUrl+"geteventd/";
     public static final String aboutEvent=baseUrl+"getevent/";
     public static final String iamgoing=baseUrl+"iamgoing/";
+    public static final String iamnotgoing=baseUrl+"iamnotgoing/";
     public static final String addfeedback=baseUrl+"addfeedback/";
     public static final String geteventusers=baseUrl+"geteventusers/";
     public static final String getmyevents=baseUrl+"getmyevents/";

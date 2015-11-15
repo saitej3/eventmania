@@ -123,10 +123,14 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
                     showFeedDialog();
 
                 }
-                else
+                else if(going == 0)
                 {
                     going=1;
                     going(email);
+                }
+                else if(going == 1){
+                    going=0;
+                    notgoing(email);
                 }
             }
         });
@@ -182,8 +186,8 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
         }
         else if(started==0 && going==1)
         {
-            eventGoing.setEnabled(false);
-            eventGoing.setText("Going");
+            eventGoing.setEnabled(true);
+            eventGoing.setText("I am not Going");
             eventGoing.setBackgroundColor(Color.parseColor("#b0caf4"));
         }
         else if(started==1 && feedback==0)
@@ -323,14 +327,73 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
                     {
                         Log.d("time",datetime.toString());
                         Timestamp t=Timestamp.valueOf(datetime);
-                        eventGoing.setText("Going!");
-                        eventGoing.setEnabled(false);
+                        eventGoing.setText("I am not Going!");
+                        eventGoing.setEnabled(true);
                         intent.putExtra("beginTime", t.getTime());
                         intent.putExtra("allDay", false);
                         intent.putExtra("rrule", "FREQ=DAILY");
                         intent.putExtra("eventLocation", Location);
                         intent.putExtra("title", eventNameCal);
                         startActivity(intent);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Error", "Registration Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(),
+                        "There was an Error please try again", Toast.LENGTH_LONG).show();
+                hideDialog();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", email);
+                params.put("event_id",event_id);
+                return params;
+            }
+
+        };
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    public void notgoing(final String email)
+    {
+        buttonCheck();
+        String tag_string_req = "req_event";
+        pDialog.setMessage("Unregistering You ...");
+        showDialog();
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                URL.iamnotgoing, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("Tag_event", "Register Response: " + response.toString());
+                hideDialog();
+
+                try {
+                    JSONObject json = new JSONObject(response);
+                    if(json==null)
+                    {
+                        Toast.makeText(AboutEventActivity.this,"Please check the network",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(json.getString("success").equalsIgnoreCase("1"))
+                    {
+                        Log.d("time",datetime.toString());
+                        Timestamp t=Timestamp.valueOf(datetime);
+                        eventGoing.setText("I am Going");
                     }
 
                 } catch (JSONException e) {
