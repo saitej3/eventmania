@@ -98,7 +98,7 @@ public class TodayFragment extends Fragment {
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                URL.registerEventUrl, new Response.Listener<String>() {
+                URL.todayevents, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -147,7 +147,7 @@ public class TodayFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error", "Registration Error: " + error.getMessage());
                 Toast.makeText(getActivity(),
-                        "No Events for today", Toast.LENGTH_LONG).show();
+                        "Network is too slow :(", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {

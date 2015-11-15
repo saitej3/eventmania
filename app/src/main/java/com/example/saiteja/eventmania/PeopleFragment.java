@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.saiteja.eventmania.adapters.CustomPeopleAdapter;
 import com.example.saiteja.eventmania.app.AppController;
+import com.example.saiteja.eventmania.app.URL;
 import com.example.saiteja.eventmania.model.Person;
 
 import org.json.JSONArray;
@@ -84,7 +85,7 @@ public class PeopleFragment extends DialogFragment  {
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://eventmnitw.herokuapp.com/geteventusers/", new Response.Listener<String>() {
+                URL.geteventusers, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

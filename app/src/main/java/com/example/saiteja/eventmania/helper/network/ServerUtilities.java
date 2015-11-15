@@ -23,7 +23,7 @@ public final class ServerUtilities {
 
 
     public static void register(final Context context, String name, String email, final String regId) {
-        String serverUrl = "http://eventmnitw.herokuapp.com/register/";
+        String serverUrl = com.example.saiteja.eventmania.app.URL.register;
         Map<String, String> params = new HashMap<String, String>();
         params.put("mobile_id", regId);
         params.put("method","google");

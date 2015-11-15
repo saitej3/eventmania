@@ -1,14 +1,11 @@
 package com.example.saiteja.eventmania;
 
-import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,15 +25,11 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.example.saiteja.eventmania.app.AppController;
+import com.example.saiteja.eventmania.app.URL;
 import com.example.saiteja.eventmania.helper.Util;
 import com.example.saiteja.eventmania.helper.network.ConnectionDetector;
-import com.example.saiteja.eventmania.model.Event;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,7 +52,6 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
     SharedPreferences sharedPreferences;
     String email;
     String event_id;
-    Date date;
     Intent intent;
     int  started=0,going=0,feedback=0;
     Calendar cal;
@@ -222,7 +214,7 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://eventmnitw.herokuapp.com/getevent/", new Response.Listener<String>() {
+                URL.aboutEvent, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -313,7 +305,7 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://eventmnitw.herokuapp.com/iamgoing/", new Response.Listener<String>() {
+                URL.iamgoing, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -405,7 +397,7 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
             hashMapPostData.put("rating",strings[1]);
 
 
-            String jsonstr= Util.getStringFromURL("http://eventmnitw.herokuapp.com/addfeedback/", hashMapPostData);
+            String jsonstr= Util.getStringFromURL(URL.addfeedback, hashMapPostData);
             //  Log.d("JSON Response",jsonstr);
             if (jsonstr!=null) {
                 Log.d("GOT FROM HTTP", jsonstr);

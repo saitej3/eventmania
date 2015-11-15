@@ -93,7 +93,7 @@ public class UpComingFragment extends Fragment {
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://eventmnitw.herokuapp.com/geteventu/", new Response.Listener<String>() {
+                URL.geteventfuture, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {

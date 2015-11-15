@@ -4,7 +4,9 @@ package com.example.saiteja.eventmania;
  * Created by Sai Teja on 11/12/2015.
  */
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -41,7 +43,8 @@ public class ProfileFragment extends Fragment {
     ConnectionDetector cd;
     private List<Event> eventList;
     private ProgressDialog pDialog;
-
+    SharedPreferences sharedPreferences;
+    String email;
     private ListView listView;
     private CustomEventListAdapter adapter;
     @Override
@@ -77,7 +80,9 @@ public class ProfileFragment extends Fragment {
 
 
         });
-        getData("saitej3@gmail.com");
+        sharedPreferences=getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        email=sharedPreferences.getString("email", "default");
+        getData(email);
         return rootView;
     }
 
@@ -89,7 +94,7 @@ public class ProfileFragment extends Fragment {
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                "http://eventmnitw.herokuapp.com/getmyevents/", new Response.Listener<String>() {
+                URL.getmyevents, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -134,7 +139,7 @@ public class ProfileFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error", "Registration Error: " + error.getMessage());
                 Toast.makeText(getActivity(),
-                        "You don't have any events", Toast.LENGTH_LONG).show();
+                        "Network is too slow :(", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {
