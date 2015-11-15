@@ -69,6 +69,9 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
     String date1,time;
     String datetime;
 
+    private Toolbar toolbar;
+    TextView tabText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         pDialog = new ProgressDialog(this);
@@ -82,11 +85,15 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
 
         }
 
-        sharedPreferences=getSharedPreferences("user",Context.MODE_PRIVATE);
-        email=sharedPreferences.getString("email", "default");
-        getSupportActionBar().setBackgroundDrawable(
-                new ColorDrawable(Color.parseColor("#F3A300")));
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setTitle("");
+        toolbar.setLogo(R.mipmap.event_hub);
+        tabText = (TextView) findViewById(R.id.tabText);
 
+        sharedPreferences=getSharedPreferences("user", Context.MODE_PRIVATE);
+        email=sharedPreferences.getString("email", "default");
 
         eventName= (TextView) findViewById(R.id.aeventName);
         eventTime= (TextView) findViewById(R.id.aeventTime);
@@ -379,7 +386,7 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog=new ProgressDialog(AboutEventActivity.this);
-            progressDialog.setMessage("Logging in..");
+            progressDialog.setMessage("Sending Feedback..");
             progressDialog.setCancelable(false);
             progressDialog.show();
         }
@@ -431,7 +438,7 @@ public class AboutEventActivity extends AppCompatActivity implements FeedBackDia
             {
                 if(hashMap.get("success").equalsIgnoreCase("1"))
                 {
-                    Toast.makeText(AboutEventActivity.this, "good", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AboutEventActivity.this, "Thank You", Toast.LENGTH_SHORT).show();
                 }
 
             }

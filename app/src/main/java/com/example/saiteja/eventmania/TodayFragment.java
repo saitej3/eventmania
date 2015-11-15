@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -41,9 +42,10 @@ public class TodayFragment extends Fragment {
     ConnectionDetector cd;
     private List<Event> eventList;
     private ProgressDialog pDialog;
-
+    int flag;
     private ListView listView;
     private CustomEventListAdapter adapter;
+    TextView eventvisible;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,9 @@ public class TodayFragment extends Fragment {
         listView= (ListView) rootView.findViewById(R.id.list);
         eventList = new ArrayList<Event>();
         eventList.clear();
+        flag=0;
+        eventvisible=(TextView)rootView.findViewById(R.id.eventvisible);
+        eventvisible.setVisibility(View.GONE);
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
         adapter = new CustomEventListAdapter(getActivity(), eventList);
@@ -109,6 +114,10 @@ public class TodayFragment extends Fragment {
                     }
 
                     JSONArray jsonArray=jObj.getJSONArray("events");
+                    if(jsonArray.length()==0) {
+                        eventvisible.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.GONE);
+                    }
                     for(int i=0;i<jsonArray.length();i++)
                     {
                         JSONObject jsonObject=jsonArray.getJSONObject(i);
@@ -129,6 +138,7 @@ public class TodayFragment extends Fragment {
                 }
 
                 adapter.notifyDataSetChanged();
+                listView.invalidateViews();
 
             }
         }, new Response.ErrorListener() {

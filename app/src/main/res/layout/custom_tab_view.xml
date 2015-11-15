@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:textColor="#f7e2b4"
+        android:textColor="#000000"
         android:id="@+id/tabText"
         android:paddingBottom="4dp"
         android:layout_width="match_parent"

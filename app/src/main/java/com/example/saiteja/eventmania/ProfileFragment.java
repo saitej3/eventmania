@@ -125,6 +125,7 @@ public class ProfileFragment extends Fragment {
                 }
 
                 adapter.notifyDataSetChanged();
+                listView.invalidateViews();
 
             }
         }, new Response.ErrorListener() {

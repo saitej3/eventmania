@@ -30,8 +30,9 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setTitle("");
+        toolbar.setLogo(R.mipmap.event_hub);
         tabText = (TextView) findViewById(R.id.tabText);
-        //loginCheck();
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         mPager.setCurrentItem(1);

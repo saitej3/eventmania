@@ -129,6 +129,7 @@ public class UpComingFragment extends Fragment {
                 }
 
                 adapter.notifyDataSetChanged();
+                listView.invalidateViews();
 
             }
         }, new Response.ErrorListener() {
