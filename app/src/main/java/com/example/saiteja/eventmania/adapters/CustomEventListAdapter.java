@@ -61,12 +61,12 @@ public class CustomEventListAdapter extends BaseAdapter {
 
         TextView eventName = (TextView) convertView.findViewById(R.id.eventName);
         TextView eventTime = (TextView) convertView.findViewById(R.id.eventTime);
-        TextView eventDesc = (TextView) convertView.findViewById(R.id.eventVenue);
+        TextView eventVenue = (TextView) convertView.findViewById(R.id.eventVenue);
         ImageView icon=(ImageView)convertView.findViewById(R.id.imageIcon);
         // getting movie data for the row
         Event e = eventItems.get(position);
         eventName.setText(e.getEventName());
-        eventDesc.setText(e.getEventVenue());
+        eventVenue.setText(e.getEventVenue());
         eventTime.setText(e.getEventTime());
         String eventChar=e.getEventName();
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT

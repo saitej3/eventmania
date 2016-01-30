@@ -1,4 +1,4 @@
-package com.example.saiteja.eventmania;
+package com.example.saiteja.eventmania.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.saiteja.eventmania.R;
 import com.example.saiteja.eventmania.adapters.CustomPeopleAdapter;
 import com.example.saiteja.eventmania.app.AppController;
 import com.example.saiteja.eventmania.app.URL;

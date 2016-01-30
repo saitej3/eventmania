@@ -14,6 +14,9 @@ import android.util.Log;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.example.saiteja.eventmania.fragments.ProfileFragment;
+import com.example.saiteja.eventmania.fragments.TodayFragment;
+import com.example.saiteja.eventmania.fragments.UpComingFragment;
 import com.example.saiteja.eventmania.helper.SlidingTabLayout;
 
 public class MainActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {

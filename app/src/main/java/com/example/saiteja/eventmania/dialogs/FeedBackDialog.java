@@ -1,4 +1,4 @@
-package com.example.saiteja.eventmania;
+package com.example.saiteja.eventmania.dialogs;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+
+import com.example.saiteja.eventmania.R;
 
 /**
  * Created by Sai Teja on 10/23/2015.
@@ -68,7 +70,7 @@ public class FeedBackDialog extends DialogFragment {
         });
 
     }
-    interface Communicator
+    public interface Communicator
     {
         public void onDialogMessage(String message, int rating);
     }

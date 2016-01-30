@@ -1,4 +1,4 @@
-package com.example.saiteja.eventmania;
+package com.example.saiteja.eventmania.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.saiteja.eventmania.AboutEventActivity;
+import com.example.saiteja.eventmania.R;
 import com.example.saiteja.eventmania.adapters.CustomEventListAdapter;
 import com.example.saiteja.eventmania.app.AppController;
 import com.example.saiteja.eventmania.app.URL;
@@ -65,7 +67,6 @@ public class TodayFragment extends Fragment {
         listView.setAdapter(adapter);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String currentDateandTime = sdf.format(new Date());
-        Log.d("dasdasdasd",currentDateandTime);
         getData(currentDateandTime);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -1,4 +1,4 @@
-package com.example.saiteja.eventmania;
+package com.example.saiteja.eventmania.util;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,6 +12,8 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.saiteja.eventmania.MainActivity;
+import com.example.saiteja.eventmania.R;
 import com.google.android.gms.gcm.GcmListenerService;
 
 public class GCMIntentService extends GcmListenerService {

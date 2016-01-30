@@ -1,9 +1,10 @@
-package com.example.saiteja.eventmania;
+package com.example.saiteja.eventmania.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.saiteja.eventmania.AboutEventActivity;
+import com.example.saiteja.eventmania.MainActivity;
+import com.example.saiteja.eventmania.R;
 import com.example.saiteja.eventmania.adapters.CustomEventListAdapter;
 import com.example.saiteja.eventmania.app.AppController;
 import com.example.saiteja.eventmania.app.URL;
@@ -36,11 +40,13 @@ import java.util.Map;
 /**
  * Created by Sai Teja on 11/12/2015.
  */
-public class UpComingFragment extends Fragment {
+public class UpComingFragment extends Fragment implements  SwipeRefreshLayout.OnRefreshListener
+{
 
     ConnectionDetector cd;
     private List<Event> eventList;
     private ProgressDialog pDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ListView listView;
     private CustomEventListAdapter adapter;
@@ -56,10 +62,11 @@ public class UpComingFragment extends Fragment {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setCancelable(false);
         adapter = new CustomEventListAdapter(getActivity(), eventList);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
         listView.setAdapter(adapter);
-
+        swipeRefreshLayout.setOnRefreshListener(this);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
+        final String currentDateandTime = sdf.format(new Date());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -80,7 +87,17 @@ public class UpComingFragment extends Fragment {
 
         });
 
-        getData(currentDateandTime);
+
+//        swipeRefreshLayout.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        swipeRefreshLayout.setRefreshing(true);
+//
+//                                        getData(currentDateandTime);
+//                                    }
+//                                }
+//        );
+
         return rootView;
     }
 
@@ -89,17 +106,19 @@ public class UpComingFragment extends Fragment {
 
 
         String tag_string_req = "req_event1";
-        pDialog.setMessage("Getting Event Details ...");
-        showDialog();
-
+//        pDialog.setMessage("Getting Event Details ...");
+//        showDialog();
+        swipeRefreshLayout.setRefreshing(true);
+//clear array
+        eventList.clear();
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 URL.geteventfuture, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
                 Log.d("Tag_event", "Register Response: " + response.toString());
-                hideDialog();
-
+                //hideDialog();
+                swipeRefreshLayout.setRefreshing(false);
                 try {
                     JSONObject jObj = new JSONObject(response);
                     if(jObj==null)
@@ -139,7 +158,9 @@ public class UpComingFragment extends Fragment {
                 Log.e("Error", "Registration Error: " + error.getMessage());
                 Toast.makeText(getActivity(),
                         "No up coming Events", Toast.LENGTH_LONG).show();
-                hideDialog();
+                //hideDialog();
+                // stopping swipe refresh
+                swipeRefreshLayout.setRefreshing(false);
             }
         }) {
 
@@ -166,4 +187,14 @@ public class UpComingFragment extends Fragment {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-}
+
+        @Override
+        public void onRefresh() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final String currentDateandTime = sdf.format(new Date());
+
+            getData(currentDateandTime);
+
+        }
+    }

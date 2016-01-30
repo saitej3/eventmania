@@ -1,4 +1,4 @@
-package com.example.saiteja.eventmania;
+package com.example.saiteja.eventmania.fragments;
 
 /**
  * Created by Sai Teja on 11/12/2015.
@@ -23,6 +23,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
+import com.example.saiteja.eventmania.AboutEventActivity;
+import com.example.saiteja.eventmania.R;
 import com.example.saiteja.eventmania.adapters.CustomEventListAdapter;
 import com.example.saiteja.eventmania.app.AppController;
 import com.example.saiteja.eventmania.app.URL;
